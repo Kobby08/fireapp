@@ -1,6 +1,13 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { collection, getDocs, getFirestore } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  getFirestore,
+} from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -34,3 +41,27 @@ getDocs(colRef)
   .catch((error) => {
     console.log(error);
   });
+
+// adding documents
+const addBookForm = document.querySelector(".add");
+addBookForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  addDoc(colRef, {
+    title: addBookForm.title.value,
+    author: addBookForm.author.value,
+  }).then(() => {
+    addBookForm.reset();
+  });
+});
+
+// deleting documents
+const deleteBookForm = document.querySelector(".delete");
+deleteBookForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const docRef = doc(db, "books", deleteBookForm.id.value);
+
+  deleteDoc(docRef).then(() => {
+    deleteBookForm.reset();
+  });
+});
