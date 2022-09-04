@@ -16,7 +16,12 @@ import {
   where,
 } from "firebase/firestore";
 
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -113,6 +118,33 @@ signupForm.addEventListener("submit", (e) => {
     .then((cred) => {
       console.log("created user:", cred.user);
       signupForm.reset();
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+});
+
+// loggin in and loggin out
+const logoutForm = document.querySelector(".logout");
+logoutForm.addEventListener("click", () => {
+  signOut(auth)
+    .then(() => {
+      console.log("user signed out");
+    })
+    .catch((error) => {
+      error.message;
+    });
+});
+
+const loginForm = document.querySelector(".login");
+loginForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const email = loginForm.email.value;
+  const password = loginForm.password.value;
+  signInWithEmailAndPassword(auth, email, password)
+    .then((cred) => {
+      console.log("user logged in at:", cred.user);
+      loginForm.reset();
     })
     .catch((error) => {
       console.log(error.message);
