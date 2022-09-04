@@ -12,6 +12,7 @@ import {
   orderBy,
   query,
   serverTimestamp,
+  updateDoc,
   where,
 } from "firebase/firestore";
 
@@ -85,4 +86,15 @@ const docRef = doc(db, "books", "g0FLhCtnxDgvV5uFMUG1");
 
 onSnapshot(docRef, (doc) => {
   console.log(doc.data(), doc.id);
+});
+
+// updating a document
+const updateForm = document.querySelector(".update");
+updateForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const docRef = doc(db, "books", updateForm.id.value);
+
+  updateDoc(docRef, { title: "updated title" }).then(() => {
+    updateForm.reset();
+  });
 });
