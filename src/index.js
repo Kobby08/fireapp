@@ -16,6 +16,8 @@ import {
   where,
 } from "firebase/firestore";
 
+import { getAuth } from "firebase/auth";
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDIwHDYPxx7QuXKaOFWy7Ry2lA9pcFz_L4",
@@ -29,8 +31,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize service
+// Initialize services
 const db = getFirestore();
+const auth = getAuth();
 
 // Collection reference
 const colRef = collection(db, "books");
