@@ -16,7 +16,7 @@ import {
   where,
 } from "firebase/firestore";
 
-import { getAuth } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -100,4 +100,21 @@ updateForm.addEventListener("submit", (e) => {
   updateDoc(docRef, { title: "updated title" }).then(() => {
     updateForm.reset();
   });
+});
+
+// signing up users
+const signupForm = document.querySelector(".signup");
+signupForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const email = signupForm.email.value;
+  const password = signupForm.password.value;
+
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((cred) => {
+      console.log("created user:", cred.user);
+      signupForm.reset();
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
 });
